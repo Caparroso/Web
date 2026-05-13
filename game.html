@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Game</title>
+
+<style>
+body {
+  background: #0b0b0b;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: Arial;
+}
+
+canvas {
+  background: #111;
+  border: 1px solid #00ffcc;
+  margin-top: 20px;
+  box-shadow: 0 0 40px #00ffcc22;
+}
+
+.controls {
+  margin-top: 10px;
+}
+
+button {
+  margin: 5px;
+  padding: 8px 15px;
+  background: #00ffcc;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button:hover {
+  background: #00ccaa;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Score: <span id="score">0</span></h2>
+
+<canvas id="game" width="400" height="400"></canvas>
+
+<div class="controls">
+  <button onclick="startGame()">Play</button>
+  <button onclick="pauseGame()">Pause</button>
+  <button onclick="resetGame()">Reset</button>
+</div>
+
+<script>
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+
+const grid = 20;
+const tiles = canvas.width / grid;
+
+let snake, velocity, food, score;
+let gameRunning = false;
+let lastTime = 0;
+let speed = 120;
+
+let glitchTimer = 0;
+
+function init() {
+  snake = [{x: 10, y: 10}];
+  velocity = {x: 0, y: 0};
+  food = randomFood();
+  score = 0;
+  speed = 120;
+  glitchTimer = 0;
+  document.getElementById("score").innerText = score;
+}
+
+function randomFood() {
+  return {
+    x: Math.floor(Math.random() * tiles),
+    y: Math.floor(Math.random() * tiles)
+  };
+}
+
+document.addEventListener("keydown", e => {
+  if (!gameRunning) return;
+
+  switch(e.key) {
+    case "ArrowUp":
+      if (velocity.y !== 1) velocity = {x: 0, y: -1};
+      break;
+    case "ArrowDown":
+      if (velocity.y !== -1) velocity = {x: 0, y: 1};
+      break;
+    case "ArrowLeft":
+      if (velocity.x !== 1) velocity = {x: -1, y: 0};
+      break;
+    case "ArrowRight":
+      if (velocity.x !== -1) velocity = {x: 1, y: 0};
+      break;
+  }
+});
+
+function startGame() {
+  if (gameRunning) return;
+  gameRunning = true;
+  requestAnimationFrame(loop);
+}
+
+function pauseGame() {
+  gameRunning = false;
+}
+
+function resetGame() {
+  gameRunning = false;
+  init();
+  draw(0);
+}
+
+function loop(timestamp) {
+  if (!gameRunning) return;
+
+  if (timestamp - lastTime > speed) {
+    update();
+    lastTime = timestamp;
+  }
+
+  draw(timestamp);
+  requestAnimationFrame(loop);
+}
+
+function update() {
+  if (velocity.x === 0 && velocity.y === 0) return;
+
+  const head = {
+    x: snake[0].x + velocity.x,
+    y: snake[0].y + velocity.y
+  };
+
+  // colisiones
+  if (
+    head.x < 0 || head.y < 0 ||
+    head.x >= tiles || head.y >= tiles
+  ) return gameOver();
+
+  for (let part of snake) {
+    if (part.x === head.x && part.y === head.y) {
+      return gameOver();
+    }
+  }
+
+  snake.unshift(head);
+
+  // comer
+  if (head.x === food.x && head.y === food.y) {
+    food = randomFood();
+    score++;
+    glitchTimer = 10;
+
+    // ⚡ velocidad dinámica
+    speed *= 0.97; // cada comida = más rápido
+    if (speed < 60) speed = 60;
+
+    document.getElementById("score").innerText = score;
+  } else {
+    snake.pop();
+  }
+}
+
+function gameOver() {
+  gameRunning = false;
+  alert("💀 Game Over | Score: " + score);
+}
+
+// 🎨 interpolación suave
+function lerp(a, b, t) {
+  return a + (b - a) * t;
+}
+
+function draw(time) {
+  ctx.fillStyle = "#0b0b0b";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // glitch overlay
+  if (glitchTimer > 0) {
+    for (let i = 0; i < 5; i++) {
+      ctx.fillStyle = `rgba(255,0,100,${Math.random()})`;
+      ctx.fillRect(
+        Math.random() * canvas.width,
+        Math.random() * canvas.height,
+        Math.random() * 50,
+        2
+      );
+    }
+    glitchTimer--;
+  }
+
+  // comida
+  ctx.fillStyle = "#ff0055";
+  ctx.fillRect(food.x * grid, food.y * grid, grid, grid);
+
+  // snake suave
+  ctx.fillStyle = "#00ffcc";
+
+  snake.forEach((part, i) => {
+    let next = snake[i - 1] || part;
+
+    let t = 0.5; // suavidad
+
+    let x = lerp(part.x, next.x, t) * grid;
+    let y = lerp(part.y, next.y, t) * grid;
+
+    ctx.fillRect(x, y, grid * 0.9, grid * 0.9);
+  });
+}
+
+init();
+draw();
+</script>
+
+</body>
+</html>

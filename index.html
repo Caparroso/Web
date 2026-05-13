@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Caparroso</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      color: white;
+      font-family: 'Inter', sans-serif;
+      text-align: center;
+      letter-spacing: 1px;
+    }
+
+    /* LOGO MEJORADO (más ancho, más pro) */
+    .logo {
+      display: block;
+      margin: 80px auto 40px auto;
+
+      width: 60vw;
+      max-width: 700px;
+      min-width: 250px;
+
+      opacity: 0.95;
+      transition: 0.4s ease;
+    }
+
+    .logo:hover {
+      opacity: 1;
+      transform: scale(1.02);
+    }
+
+    /* BOTONES */
+    .links {
+      margin-top: 10px;
+    }
+
+    .links a {
+      text-decoration: none;
+      color: white;
+      margin: 0 15px;
+      font-size: 14px;
+      opacity: 0.6;
+      transition: 0.3s;
+    }
+
+    .links a:hover {
+      opacity: 1;
+    }
+
+    /* GALERÍA */
+    .gallery {
+      margin-top: 80px;
+      overflow-x: auto;
+      white-space: nowrap;
+      padding: 20px;
+    }
+
+    .gallery img {
+      height: 250px;
+      width: auto;
+      margin-right: 20px;
+      object-fit: cover;
+      display: inline-block;
+      filter: brightness(0.9);
+      transition: 0.3s;
+      cursor: pointer;
+    }
+
+    .gallery img:hover {
+      filter: brightness(1.2);
+      transform: scale(1.03);
+    }
+
+    .gallery::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* OVERLAY */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.95);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.4s ease;
+    }
+
+    .overlay img {
+      max-width: 90%;
+      max-height: 90%;
+      transform: scale(0.9);
+      transition: 0.4s ease;
+    }
+
+    .overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .overlay.active img {
+      transform: scale(1);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- LOGO -->
+  <img src="imagenes/Caparroso PNG .png" class="logo">
+
+  <!-- REDES -->
+  <div class="links">
+    <a href="https://open.spotify.com/intl-es/artist/5Xg7hRgbAdmx6v8t21M4Sw" target="_blank">SPOTIFY</a>
+    <a href="https://www.instagram.com/caparrosoo/" target="_blank">INSTAGRAM</a>
+    <a href="https://www.youtube.com/@Caparrosoofc" target="_blank">YOUTUBE</a>
+    <a href="https://x.com/RodCaparroso" target="_blank">X</a>
+  </div>
+
+  <!-- GALERÍA -->
+  <div class="gallery">
+    <img src="imagenes/Cd Effect Lines Geometric Album Cover.png">
+    <img src="imagenes/SYKA CHOKIS.png">
+    <img src="imagenes/WhatsApp Image 2025-11-29 at 9.18.24 PM.jpeg">
+    <img src="imagenes/WhatsApp Image 2025-11-29 at 9.20.01 PM.jpeg">
+  </div>
+
+  <!-- OVERLAY -->
+  <div class="overlay" id="overlay">
+    <img id="overlayImg">
+  </div>
+
+  <script>
+    const images = document.querySelectorAll(".gallery img");
+    const overlay = document.getElementById("overlay");
+    const overlayImg = document.getElementById("overlayImg");
+
+    images.forEach(img => {
+      img.addEventListener("click", () => {
+        overlay.classList.add("active");
+        overlayImg.src = img.src;
+      });
+    });
+
+    overlay.addEventListener("click", () => {
+      overlay.classList.remove("active");
+    });
+  </script>
+
+</body>
+</html>

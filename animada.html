@@ -1,0 +1,207 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Caparroso</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500&display=swap" rel="stylesheet">
+
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: white;
+      font-family: 'Inter', sans-serif;
+      text-align: center;
+      letter-spacing: 1px;
+
+      /* Fondo cinematográfico */
+      background: radial-gradient(circle at center, #0a0a0a 0%, #000000 100%);
+    }
+
+    /* LOGO */
+    .logo {
+      display: block;
+      margin: 80px auto 40px auto;
+
+      width: 60vw;
+      max-width: 700px;
+      min-width: 250px;
+
+      opacity: 0;
+      animation: fadeInLogo 1.5s ease forwards;
+    }
+
+    @keyframes fadeInLogo {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 0.95;
+        transform: scale(1);
+      }
+    }
+
+    .logo:hover {
+      transform: scale(1.02);
+    }
+
+    /* BOTONES */
+    .links {
+      margin-top: 10px;
+      opacity: 0;
+      animation: fadeInLinks 2s ease forwards;
+      animation-delay: 0.5s;
+    }
+
+    @keyframes fadeInLinks {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .links a {
+      text-decoration: none;
+      color: white;
+      margin: 0 15px;
+      font-size: 14px;
+      opacity: 0.6;
+      transition: 0.3s;
+    }
+
+    .links a:hover {
+      opacity: 1;
+    }
+
+    /* GALERÍA */
+    .gallery {
+      margin-top: 80px;
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 20px;
+      position: relative;
+    }
+
+    .gallery-track {
+      display: inline-block;
+      animation: scrollGallery 60s linear infinite;
+    }
+
+    .gallery img {
+      height: 250px;
+      width: auto;
+      margin-right: 20px;
+      object-fit: cover;
+      display: inline-block;
+      filter: brightness(0.9);
+      transition: 0.3s;
+      cursor: pointer;
+    }
+
+    .gallery img:hover {
+      filter: brightness(1.2);
+      transform: scale(1.03);
+    }
+
+    @keyframes scrollGallery {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* OVERLAY */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.95);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.4s ease;
+    }
+
+    .overlay img {
+      max-width: 90%;
+      max-height: 90%;
+      transform: scale(0.9);
+      transition: 0.4s ease;
+    }
+
+    .overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .overlay.active img {
+      transform: scale(1);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- LOGO -->
+  <img src="imagenes/Caparroso PNG .png" class="logo">
+
+  <!-- REDES -->
+  <div class="links">
+    <a href="https://open.spotify.com/intl-es/artist/5Xg7hRgbAdmx6v8t21M4Sw" target="_blank">SPOTIFY</a>
+    <a href="https://www.instagram.com/caparrosoo/" target="_blank">INSTAGRAM</a>
+    <a href="https://www.youtube.com/@Caparrosoofc" target="_blank">YOUTUBE</a>
+    <a href="https://x.com/RodCaparroso" target="_blank">X</a>
+  </div>
+
+  <!-- GALERÍA -->
+  <div class="gallery">
+    <div class="gallery-track">
+      <img src="Imagenes\3DSyka.png">
+      <img src="Imagenes\BACKGROUND.png">
+      <img src="Imagenes\FIRST&ORIGINAL.jpeg">
+      <img src="Imagenes\SYKA LOGO BLUE.jpeg">
+      <img src="Imagenes\SYKA LOGO.png">
+      <img src="Imagenes\SYKABLUEWALLPAPER.jpeg">
+      <img src="Imagenes\SYKAPROMO.png">
+
+      <!-- duplicadas para loop infinito -->
+       <img src="Imagenes\3DSyka.png">
+      <img src="Imagenes\BACKGROUND.png">
+      <img src="Imagenes\FIRST&ORIGINAL.jpeg">
+      <img src="Imagenes\SYKA LOGO BLUE.jpeg">
+      <img src="Imagenes\SYKA LOGO.png">
+      <img src="Imagenes\SYKABLUEWALLPAPER.jpeg">
+      <img src="Imagenes\SYKAPROMO.png">
+    </div>
+  </div>
+
+  <!-- OVERLAY -->
+  <div class="overlay" id="overlay">
+    <img id="overlayImg">
+  </div>
+
+  <script>
+    const images = document.querySelectorAll(".gallery img");
+    const overlay = document.getElementById("overlay");
+    const overlayImg = document.getElementById("overlayImg");
+
+    images.forEach(img => {
+      img.addEventListener("click", () => {
+        overlay.classList.add("active");
+        overlayImg.src = img.src;
+      });
+    });
+
+    overlay.addEventListener("click", () => {
+      overlay.classList.remove("active");
+    });
+  </script>
+
+</body>
+</html>
