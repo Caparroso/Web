@@ -1,0 +1,1525 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0d0d0d">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta name="description" content="Sitio oficial de Caparroso: música, visuales, arte y Caparroso Arcade.">
+    <title>Caparroso — Sitio oficial</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #0d0d0d;
+            --panel: rgba(13, 13, 13, 0.97);
+            --ink: #fff8ef;
+            --muted: #c1ac9a;
+            --line: rgba(242, 166, 73, 0.2);
+            --red: #d91e2e;
+            --blue: #173673;
+            --gold: #f2a649;
+            --orange: #f28b50;
+            --content: 1180px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            color-scheme: dark;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-width: 320px;
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: var(--ink);
+            background:
+                linear-gradient(115deg, rgba(23, 54, 115, 0.14), transparent 30%),
+                linear-gradient(300deg, rgba(217, 30, 46, 0.09), transparent 36%),
+                var(--bg);
+            font-family: "Inter", sans-serif;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: 20;
+            pointer-events: none;
+            opacity: 0.16;
+            background-image:
+                repeating-linear-gradient(0deg, transparent 0 3px, rgba(255, 255, 255, 0.025) 4px),
+                repeating-linear-gradient(90deg, transparent 0 5px, rgba(255, 255, 255, 0.018) 6px);
+            mix-blend-mode: overlay;
+        }
+
+        body.locked {
+            overflow: hidden;
+        }
+
+        button,
+        a,
+        input {
+            font: inherit;
+        }
+
+        button,
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        button:focus-visible,
+        a:focus-visible,
+        input:focus-visible {
+            outline: 2px solid var(--gold);
+            outline-offset: 4px;
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        .mono {
+            font-family: "Space Mono", monospace;
+        }
+
+        .eyebrow {
+            margin: 0 0 14px;
+            color: var(--gold);
+            font: 700 11px/1.4 "Space Mono", monospace;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        .section-shell {
+            width: min(calc(100% - 40px), var(--content));
+            margin-inline: auto;
+        }
+
+        .site-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 30;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            width: 100%;
+            padding: 24px clamp(20px, 4vw, 64px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .header-nav {
+            display: flex;
+            gap: clamp(16px, 3vw, 38px);
+        }
+
+        .header-nav a {
+            color: #c7cecd;
+            font: 700 10px/1 "Space Mono", monospace;
+            letter-spacing: 0.12em;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: color 180ms ease;
+        }
+
+        .header-nav a:hover {
+            color: var(--gold);
+        }
+
+        .hero {
+            position: relative;
+            display: grid;
+            min-height: min(800px, 100svh);
+            place-items: center;
+            overflow: hidden;
+            padding: 120px 20px 80px;
+            text-align: center;
+        }
+
+        .hero::before,
+        .hero::after {
+            content: "";
+            position: absolute;
+            pointer-events: none;
+        }
+
+        .hero::before {
+            inset: 0;
+            background:
+                linear-gradient(to bottom, rgba(13, 13, 13, 0.08), var(--bg) 95%),
+                linear-gradient(90deg, var(--red) 0 7px, transparent 7px 100%);
+        }
+
+        .hero::after {
+            width: min(76vw, 760px);
+            height: min(38vw, 330px);
+            border-radius: 48% 52% 42% 58%;
+            background: linear-gradient(115deg, var(--blue) 0 38%, var(--red) 38% 45%, var(--gold) 45% 74%, var(--orange) 74%);
+            opacity: 0.16;
+            transform: rotate(-7deg);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            width: min(94vw, 780px);
+        }
+
+        .hero-kicker {
+            margin-bottom: 32px;
+            color: var(--muted);
+            font: 400 10px/1.4 "Space Mono", monospace;
+            letter-spacing: 0.24em;
+            text-transform: uppercase;
+        }
+
+        .logo {
+            display: block;
+            width: min(80vw, 650px);
+            margin: 0 auto 36px;
+        }
+
+        .hero-copy {
+            max-width: 540px;
+            margin: 0 auto 30px;
+            color: #aeb8b7;
+            font-size: clamp(13px, 1.5vw, 15px);
+            font-weight: 300;
+            line-height: 1.8;
+            letter-spacing: 0.03em;
+        }
+
+        .play-btn {
+            position: relative;
+            min-width: 218px;
+            padding: 15px 24px;
+            overflow: hidden;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            background: rgba(242, 166, 73, 0.04);
+            cursor: pointer;
+            font: 700 11px/1 "Space Mono", monospace;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            transition: color 200ms ease, background 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+        }
+
+        .play-btn:hover {
+            color: var(--bg);
+            background: var(--gold);
+            transform: translateY(-2px);
+        }
+
+        .social-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px 30px;
+            margin-top: 26px;
+        }
+
+        .social-links a {
+            color: #bbc2c1;
+            font: 700 10px/1 "Space Mono", monospace;
+            letter-spacing: 0.14em;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: color 180ms ease, text-shadow 180ms ease;
+        }
+
+        .social-links a:hover {
+            color: var(--gold);
+        }
+
+        .scroll-cue {
+            position: absolute;
+            bottom: 26px;
+            left: 50%;
+            z-index: 3;
+            display: grid;
+            gap: 9px;
+            justify-items: center;
+            color: #68706f;
+            font: 700 8px/1 "Space Mono", monospace;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            transform: translateX(-50%);
+        }
+
+        .scroll-cue::after {
+            content: "";
+            width: 1px;
+            height: 30px;
+            background: linear-gradient(var(--orange), transparent);
+        }
+
+        .gallery-section {
+            position: relative;
+            padding: 76px 0 96px;
+            border-top: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+            background: linear-gradient(180deg, rgba(23, 54, 115, 0.18), transparent 55%);
+            overflow: hidden;
+        }
+
+        .gallery-heading {
+            margin-bottom: 32px;
+        }
+
+        .gallery-heading h2,
+        .tv-heading h2 {
+            margin: 0;
+            font-size: clamp(32px, 6vw, 74px);
+            font-weight: 500;
+            letter-spacing: -0.055em;
+            line-height: 0.95;
+        }
+
+        .gallery-heading h2 {
+            color: var(--gold);
+        }
+
+        .tv-heading h2 {
+            color: var(--orange);
+        }
+
+        .gallery-window {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            mask-image: linear-gradient(90deg, transparent, black 3%, black 97%, transparent);
+        }
+
+        .gallery-track {
+            display: flex;
+            width: max-content;
+            animation: gallery-scroll 48s linear infinite;
+        }
+
+        .gallery-window:hover .gallery-track,
+        .gallery-window:focus-within .gallery-track {
+            animation-play-state: paused;
+        }
+
+        .gallery-set {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            padding-right: 18px;
+        }
+
+        .gallery-card {
+            position: relative;
+            flex: 0 0 auto;
+            padding: 0;
+            overflow: visible;
+            border: 0;
+            background: transparent;
+            cursor: zoom-in;
+        }
+
+        .gallery-card img {
+            width: auto;
+            height: clamp(220px, 30vw, 420px);
+            max-width: none;
+            display: block;
+            object-fit: contain;
+            transition: transform 500ms cubic-bezier(.2,.7,.2,1), opacity 300ms ease;
+        }
+
+        .gallery-card::after {
+            content: attr(data-number);
+            position: absolute;
+            right: 12px;
+            bottom: 12px;
+            padding: 5px 7px;
+            color: var(--bg);
+            background: var(--gold);
+            font: 700 9px/1 "Space Mono", monospace;
+            letter-spacing: 0.1em;
+        }
+
+        .gallery-card:hover img {
+            transform: translateY(-6px);
+            opacity: 0.9;
+        }
+
+        .tv-section {
+            position: relative;
+            padding: clamp(90px, 12vw, 170px) 0;
+        }
+
+        .tv-section::before {
+            content: "";
+            position: absolute;
+            top: 8%;
+            right: -9vw;
+            width: 42vw;
+            height: 42vw;
+            border-radius: 50%;
+            background: rgba(23, 54, 115, 0.18);
+            filter: blur(90px);
+            pointer-events: none;
+        }
+
+        .tv-heading {
+            margin-bottom: 42px;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 22px;
+        }
+
+        .video-card {
+            position: relative;
+        }
+
+        .video-frame {
+            position: relative;
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.13);
+            background: #090a0b;
+            box-shadow: 0 24px 70px rgba(0, 0, 0, 0.25);
+        }
+
+        .video-frame iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .video-meta {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding-top: 14px;
+            color: #a9b1b0;
+            font: 700 10px/1.5 "Space Mono", monospace;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .video-meta span:first-child {
+            color: var(--ink);
+        }
+
+        .site-footer {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            gap: 30px;
+            width: min(calc(100% - 40px), var(--content));
+            margin: 0 auto;
+            padding: 34px 0;
+            border-top: 1px solid var(--line);
+            color: #757e7d;
+            font: 700 9px/1.5 "Space Mono", monospace;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .site-footer img {
+            width: 112px;
+            opacity: 0.75;
+        }
+
+        .site-footer a {
+            justify-self: end;
+            color: #9da5a4;
+            text-decoration: none;
+        }
+
+        /* SOUNDCloud DRAWER */
+        .music-drawer {
+            position: fixed;
+            top: 50%;
+            left: 0;
+            z-index: 1200;
+            width: min(390px, calc(100vw - 62px));
+            transform: translate(-100%, -50%);
+            transition: transform 420ms cubic-bezier(.22,.7,.25,1);
+        }
+
+        .music-drawer.open {
+            transform: translate(0, -50%);
+        }
+
+        .music-panel {
+            min-height: 420px;
+            padding: 24px;
+            border: 1px solid rgba(242, 166, 73, 0.32);
+            border-left: 0;
+            background:
+                linear-gradient(145deg, rgba(242, 139, 80, 0.12), transparent 38%),
+                rgba(7, 9, 10, 0.97);
+            box-shadow: 24px 0 80px rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(18px);
+        }
+
+        .music-handle {
+            position: absolute;
+            top: 50%;
+            right: -55px;
+            display: grid;
+            width: 56px;
+            height: 66px;
+            padding: 0;
+            border: 1px solid rgba(242, 166, 73, 0.45);
+            border-left: 0;
+            border-radius: 0 8px 8px 0;
+            place-items: center;
+            color: var(--gold);
+            background: rgba(7, 9, 10, 0.96);
+            box-shadow: 18px 0 40px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            font: 400 27px/1 Georgia, serif;
+            transform: translateY(-50%);
+            transition: color 180ms ease, background 180ms ease, box-shadow 180ms ease;
+        }
+
+        .music-handle:hover {
+            color: var(--bg);
+            background: var(--gold);
+        }
+
+        .music-panel-top {
+            display: flex;
+            align-items: start;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 18px;
+        }
+
+        .music-title {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: -0.03em;
+        }
+
+        .music-subtitle {
+            margin: 6px 0 0;
+            color: #899391;
+            font: 400 9px/1.5 "Space Mono", monospace;
+            letter-spacing: 0.09em;
+            text-transform: uppercase;
+        }
+
+        .drawer-close {
+            padding: 7px;
+            border: 0;
+            color: #8e9796;
+            background: transparent;
+            cursor: pointer;
+            font-size: 17px;
+        }
+
+        .soundcloud-frame {
+            width: 100%;
+            height: 300px;
+            border: 0;
+            border-radius: 4px;
+            background: var(--bg);
+        }
+
+        .music-credit {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            margin-top: 14px;
+            color: #77817f;
+            font: 700 9px/1.5 "Space Mono", monospace;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .music-credit a {
+            color: var(--gold);
+            text-decoration: none;
+        }
+
+        /* MODALS */
+        .modal {
+            position: fixed;
+            inset: 0;
+            z-index: 1600;
+            display: grid;
+            padding: 24px;
+            visibility: hidden;
+            background: rgba(2, 3, 4, 0.94);
+            opacity: 0;
+            place-items: center;
+            transition: opacity 220ms ease, visibility 220ms ease;
+            backdrop-filter: blur(14px);
+        }
+
+        .modal.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: max(20px, env(safe-area-inset-top));
+            right: max(20px, env(safe-area-inset-right));
+            z-index: 5;
+            padding: 10px 12px;
+            border: 1px solid var(--line);
+            color: #d4d9d8;
+            background: rgba(5, 6, 7, 0.75);
+            cursor: pointer;
+            font: 700 10px/1 "Space Mono", monospace;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .image-modal-content {
+            display: grid;
+            width: min(1120px, 100%);
+            gap: 18px;
+            place-items: center;
+        }
+
+        .modal-image {
+            display: block;
+            max-width: min(88vw, 1020px);
+            max-height: 76vh;
+            object-fit: contain;
+            border: 1px solid rgba(255, 255, 255, 0.13);
+            box-shadow: 0 40px 120px rgba(0, 0, 0, 0.6);
+        }
+
+        .image-nav {
+            position: absolute;
+            top: 50%;
+            width: 48px;
+            height: 64px;
+            border: 1px solid var(--line);
+            color: var(--gold);
+            background: rgba(5, 6, 7, 0.72);
+            cursor: pointer;
+            font-size: 28px;
+            transform: translateY(-50%);
+        }
+
+        .image-nav.prev {
+            left: clamp(12px, 4vw, 60px);
+        }
+
+        .image-nav.next {
+            right: clamp(12px, 4vw, 60px);
+        }
+
+        .image-modal-actions {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            color: #929a99;
+            font: 700 10px/1 "Space Mono", monospace;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .image-modal-actions a {
+            padding: 10px 14px;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            text-decoration: none;
+        }
+
+        /* ARCADE */
+        .game-dialog {
+            display: grid;
+            grid-template-columns: minmax(0, 440px) 170px;
+            align-items: start;
+            gap: 34px;
+            width: min(680px, 100%);
+        }
+
+        .game-main {
+            position: relative;
+            min-width: 0;
+        }
+
+        .game-topline {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 12px;
+            color: #98a2a0;
+            font: 700 10px/1.5 "Space Mono", monospace;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .game-topline strong {
+            color: var(--red);
+            font-size: 16px;
+        }
+
+        .canvas-shell {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1;
+        }
+
+        #game {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border: 1px solid rgba(242, 166, 73, 0.3);
+            border-radius: 22px;
+            background: var(--bg);
+            box-shadow: 0 26px 80px rgba(0, 0, 0, 0.42), inset 0 0 70px rgba(23, 54, 115, 0.08);
+            touch-action: none;
+        }
+
+        .game-overlay {
+            position: absolute;
+            inset: 1px;
+            display: grid;
+            padding: 22px;
+            text-align: center;
+            background: rgba(2, 3, 4, 0.88);
+            border-radius: 21px;
+            opacity: 0;
+            place-items: center;
+            pointer-events: none;
+            transition: opacity 180ms ease;
+        }
+
+        .game-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .game-overlay h3 {
+            margin: 0 0 8px;
+            color: var(--red);
+            font-size: clamp(25px, 6vw, 42px);
+            letter-spacing: -0.05em;
+            text-transform: uppercase;
+        }
+
+        .game-overlay p {
+            margin: 0 0 15px;
+            color: #b1b9b8;
+            font: 700 10px/1.6 "Space Mono", monospace;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .score-form {
+            display: flex;
+            gap: 8px;
+        }
+
+        .score-form input {
+            width: 160px;
+            padding: 10px 4px;
+            border: 0;
+            border-bottom: 1px solid var(--gold);
+            border-radius: 0;
+            color: white;
+            background: transparent;
+            text-align: center;
+            outline: 0;
+        }
+
+        .score-form button,
+        .restart-btn {
+            padding: 10px 12px;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            background: transparent;
+            cursor: pointer;
+            font: 700 9px/1 "Space Mono", monospace;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .game-actions {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .game-actions button {
+            flex: 1;
+            padding: 11px 10px;
+            border: 1px solid rgba(255, 255, 255, 0.17);
+            color: #c7cdcc;
+            background: transparent;
+            cursor: pointer;
+            font: 700 9px/1 "Space Mono", monospace;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .game-actions button.primary {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .leaderboard {
+            padding: 18px;
+            border: 1px solid rgba(242, 166, 73, 0.24);
+            color: #9aa4a2;
+            background: rgba(242, 166, 73, 0.045);
+            font: 700 10px/1.5 "Space Mono", monospace;
+            text-transform: uppercase;
+        }
+
+        .leaderboard h3 {
+            margin: 0 0 14px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(242, 166, 73, 0.26);
+            color: var(--gold);
+            font-size: 10px;
+            letter-spacing: 0.11em;
+        }
+
+        .leaderboard ol {
+            display: grid;
+            gap: 8px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .leaderboard li {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .leaderboard .empty-score {
+            color: #59605f;
+            font-size: 9px;
+            line-height: 1.7;
+        }
+
+        .touch-controls {
+            display: none;
+            grid-template-columns: repeat(3, 48px);
+            grid-template-rows: repeat(2, 48px);
+            justify-content: center;
+            gap: 7px;
+            margin-top: 15px;
+        }
+
+        .touch-controls button {
+            display: grid;
+            padding: 0;
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            border-radius: 4px;
+            color: var(--ink);
+            background: rgba(255, 255, 255, 0.045);
+            place-items: center;
+            cursor: pointer;
+            font-size: 19px;
+            touch-action: manipulation;
+        }
+
+        .touch-controls button:active {
+            border-color: var(--gold);
+            color: var(--bg);
+            background: var(--gold);
+        }
+
+        .touch-controls .up { grid-column: 2; grid-row: 1; }
+        .touch-controls .left { grid-column: 1; grid-row: 2; }
+        .touch-controls .down { grid-column: 2; grid-row: 2; }
+        .touch-controls .right { grid-column: 3; grid-row: 2; }
+
+        @keyframes gallery-scroll {
+            to { transform: translateX(-50%); }
+        }
+
+        @media (max-width: 760px) {
+            .site-header {
+                padding: 20px;
+            }
+
+            .hero {
+                min-height: 720px;
+                padding-top: 110px;
+            }
+
+            .logo {
+                width: min(92vw, 600px);
+            }
+
+            .gallery-heading,
+            .tv-heading {
+                display: block;
+            }
+
+            .video-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .game-dialog {
+                grid-template-columns: 1fr;
+                max-width: 430px;
+                gap: 14px;
+            }
+
+            .leaderboard {
+                display: none;
+            }
+
+            .touch-controls {
+                display: grid;
+            }
+
+            .game-actions {
+                margin-top: 10px;
+            }
+
+            .modal.game-modal {
+                align-items: start;
+                padding: 68px 16px 22px;
+                overflow-y: auto;
+            }
+
+            .image-nav {
+                top: auto;
+                bottom: 26px;
+                height: 46px;
+                transform: none;
+            }
+
+            .site-footer {
+                grid-template-columns: 1fr auto;
+            }
+
+            .site-footer img {
+                display: none;
+            }
+        }
+
+        @media (max-width: 430px) {
+            .section-shell {
+                width: min(calc(100% - 28px), var(--content));
+            }
+
+            .hero {
+                min-height: 670px;
+                padding-inline: 14px;
+            }
+
+            .social-links {
+                gap: 16px 22px;
+            }
+
+            .gallery-section {
+                padding-top: 58px;
+            }
+
+            .gallery-card img {
+                height: clamp(210px, 68vw, 300px);
+            }
+
+            .music-panel {
+                padding: 18px;
+            }
+
+            .music-drawer {
+                width: calc(100vw - 58px);
+            }
+
+            .music-handle {
+                right: -51px;
+                width: 52px;
+            }
+
+            .soundcloud-frame {
+                height: 300px;
+            }
+
+            .modal-close {
+                top: 12px;
+                right: 12px;
+            }
+
+            .game-topline span:last-child {
+                display: none;
+            }
+
+            .canvas-shell {
+                width: min(100%, 360px);
+                margin-inline: auto;
+            }
+
+            .site-footer {
+                font-size: 8px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *, *::before, *::after {
+                scroll-behavior: auto !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="site-header">
+        <nav class="header-nav" aria-label="Navegación principal">
+            <a href="#archivo">Visual Art</a>
+            <a href="#tv">Caparroso TV</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="hero-content">
+                <h1 id="hero-title" hidden>Caparroso</h1>
+                <img class="logo" src="Imagenes/Caparroso PNG .png" alt="Caparroso">
+
+                <button class="play-btn" id="openGameButton" type="button">Juega y escucha</button>
+
+                <nav class="social-links" aria-label="Redes sociales de Caparroso">
+                    <a href="https://open.spotify.com/intl-es/artist/5McZpps4Xu3rYq2k3V1T22?si=RDYtndi2RkSio5ViV-x7Iw" target="_blank" rel="noopener noreferrer">Spotify</a>
+                    <a href="https://soundcloud.com/caparroso" target="_blank" rel="noopener noreferrer">SoundCloud</a>
+                    <a href="https://www.instagram.com/caparrosoo/" target="_blank" rel="noopener noreferrer">Instagram</a>
+                    <a href="https://www.youtube.com/@Caparrosoofc" target="_blank" rel="noopener noreferrer">YouTube</a>
+                    <a href="https://x.com/RodCaparroso" target="_blank" rel="noopener noreferrer">X</a>
+                </nav>
+            </div>
+
+            <div class="scroll-cue" aria-hidden="true">Explorar</div>
+        </section>
+
+        <section class="gallery-section" id="archivo" aria-labelledby="archive-title">
+            <div class="section-shell gallery-heading">
+                <h2 id="archive-title">Visual Art</h2>
+            </div>
+
+            <div class="gallery-window">
+                <div class="gallery-track" id="galleryTrack">
+                    <div class="gallery-set">
+                        <button class="gallery-card" type="button" data-index="0" data-number="001" aria-label="Abrir imagen 1"><img src="Imagenes/3DSyka.png" width="1400" height="1400" alt="Retrato tridimensional de Syka con sombrero naranja" loading="lazy"></button>
+                        <button class="gallery-card" type="button" data-index="1" data-number="002" aria-label="Abrir imagen 2"><img src="Imagenes/BACKGROUND.png" width="851" height="315" alt="Composición gráfica del universo Syka" loading="lazy"></button>
+                        <button class="gallery-card" type="button" data-index="2" data-number="003" aria-label="Abrir imagen 3"><img src="Imagenes/FIRST&ORIGINAL.jpeg" width="1600" height="800" alt="Arte First and Original" loading="lazy"></button>
+                        <button class="gallery-card" type="button" data-index="3" data-number="004" aria-label="Abrir imagen 4"><img src="Imagenes/SYKA LOGO BLUE.jpeg" width="1400" height="1400" alt="Logotipo azul de Syka" loading="lazy"></button>
+                        <button class="gallery-card" type="button" data-index="4" data-number="005" aria-label="Abrir imagen 5"><img src="Imagenes/SYKA LOGO.png" width="1080" height="1350" alt="Logotipo de Syka" loading="lazy"></button>
+                        <button class="gallery-card" type="button" data-index="5" data-number="006" aria-label="Abrir imagen 6"><img src="Imagenes/SYKABLUEWALLPAPER.jpeg" width="1600" height="800" alt="Fondo azul de Syka" loading="lazy"></button>
+                        <button class="gallery-card" type="button" data-index="6" data-number="007" aria-label="Abrir imagen 7"><img src="Imagenes/SYKAPROMO.png" width="1668" height="2388" alt="Arte promocional de Syka" loading="lazy"></button>
+                    </div>
+
+                    <div class="gallery-set" aria-hidden="true">
+                        <button class="gallery-card" type="button" tabindex="-1" data-index="0" data-number="001"><img src="Imagenes/3DSyka.png" width="1400" height="1400" alt="" loading="lazy"></button>
+                        <button class="gallery-card" type="button" tabindex="-1" data-index="1" data-number="002"><img src="Imagenes/BACKGROUND.png" width="851" height="315" alt="" loading="lazy"></button>
+                        <button class="gallery-card" type="button" tabindex="-1" data-index="2" data-number="003"><img src="Imagenes/FIRST&ORIGINAL.jpeg" width="1600" height="800" alt="" loading="lazy"></button>
+                        <button class="gallery-card" type="button" tabindex="-1" data-index="3" data-number="004"><img src="Imagenes/SYKA LOGO BLUE.jpeg" width="1400" height="1400" alt="" loading="lazy"></button>
+                        <button class="gallery-card" type="button" tabindex="-1" data-index="4" data-number="005"><img src="Imagenes/SYKA LOGO.png" width="1080" height="1350" alt="" loading="lazy"></button>
+                        <button class="gallery-card" type="button" tabindex="-1" data-index="5" data-number="006"><img src="Imagenes/SYKABLUEWALLPAPER.jpeg" width="1600" height="800" alt="" loading="lazy"></button>
+                        <button class="gallery-card" type="button" tabindex="-1" data-index="6" data-number="007"><img src="Imagenes/SYKAPROMO.png" width="1668" height="2388" alt="" loading="lazy"></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="tv-section" id="tv" aria-labelledby="tv-title">
+            <div class="section-shell">
+                <div class="tv-heading">
+                    <div>
+                        <h2 id="tv-title">Caparroso<br>TV</h2>
+                    </div>
+                </div>
+
+                <div class="video-grid">
+                    <article class="video-card">
+                        <div class="video-frame">
+                            <iframe src="https://www.youtube-nocookie.com/embed/34grCgtIvF4?rel=0" title="Caparroso TV — Video 01" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        </div>
+                        <div class="video-meta"><span>Transmisión 01</span><span>Caparroso TV</span></div>
+                    </article>
+
+                    <article class="video-card">
+                        <div class="video-frame">
+                            <iframe src="https://www.youtube-nocookie.com/embed/-5wDiNbQ-gg?rel=0" title="Caparroso TV — Video 02" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        </div>
+                        <div class="video-meta"><span>Transmisión 02</span><span>Caparroso TV</span></div>
+                    </article>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <span>© <span id="year"></span> Caparroso</span>
+        <img src="Imagenes/Caparroso PNG .png" alt="" aria-hidden="true">
+        <a href="https://soundcloud.com/caparroso" target="_blank" rel="noopener noreferrer">Escuchar en SoundCloud ↗</a>
+    </footer>
+
+    <aside class="music-drawer" id="musicDrawer" aria-label="Reproductor de música">
+        <div class="music-panel">
+            <div class="music-panel-top">
+                <div>
+                    <p class="eyebrow">Caparroso Radio</p>
+                    <h2 class="music-title">Caparroso Essentials</h2>
+                    <p class="music-subtitle">Playlist en SoundCloud</p>
+                </div>
+                <button class="drawer-close" id="closeMusic" type="button" aria-label="Cerrar reproductor">×</button>
+            </div>
+
+            <iframe class="soundcloud-frame" title="Caparroso Essentials en SoundCloud" allow="autoplay; encrypted-media" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/soundcloud%253Aplaylists%253A2281606580&amp;color=%23f2a649&amp;auto_play=false&amp;hide_related=true&amp;show_comments=false&amp;show_user=true&amp;show_reposts=false&amp;show_teaser=false&amp;visual=true"></iframe>
+
+            <div class="music-credit">
+                <span>Powered by SoundCloud</span>
+                <a href="https://soundcloud.com/caparroso/sets/caparroso-esentials" target="_blank" rel="noopener noreferrer">Abrir playlist ↗</a>
+            </div>
+        </div>
+
+        <button class="music-handle" id="musicHandle" type="button" aria-controls="musicDrawer" aria-expanded="false" aria-label="Abrir reproductor de música">♫</button>
+    </aside>
+
+    <div class="modal image-modal" id="imageModal" role="dialog" aria-modal="true" aria-label="Visor de imágenes">
+        <button class="modal-close" id="closeImage" type="button">Cerrar ×</button>
+        <button class="image-nav prev" id="prevImage" type="button" aria-label="Imagen anterior">‹</button>
+        <div class="image-modal-content">
+            <img class="modal-image" id="modalImage" src="" alt="">
+            <div class="image-modal-actions">
+                <span id="imageCount">001 / 007</span>
+                <a id="downloadImage" href="" download>Descargar</a>
+            </div>
+        </div>
+        <button class="image-nav next" id="nextImage" type="button" aria-label="Imagen siguiente">›</button>
+    </div>
+
+    <div class="modal game-modal" id="gameModal" role="dialog" aria-modal="true" aria-labelledby="gameTitle">
+        <button class="modal-close" id="closeGame" type="button">Cerrar ×</button>
+
+        <div class="game-dialog">
+            <div class="game-main">
+                <div class="game-topline">
+                    <span id="gameTitle">Caparroso Arcade / Snake</span>
+                    <span>Score <strong id="score">0</strong></span>
+                </div>
+
+                <div class="canvas-shell">
+                    <canvas id="game" width="400" height="400" aria-label="Juego Snake"></canvas>
+
+                    <div class="game-overlay" id="gameOverBlock">
+                        <div>
+                            <h3>Game Over</h3>
+                            <p>Puntuación final: <span id="finalScore">0</span></p>
+                            <form class="score-form" id="scoreForm">
+                                <input id="nameInput" maxlength="12" placeholder="Tu nombre" aria-label="Tu nombre" autocomplete="nickname">
+                                <button type="submit">Guardar</button>
+                            </form>
+                            <button class="restart-btn" id="restartWithoutSave" type="button">Jugar otra vez</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="touch-controls" aria-label="Controles táctiles">
+                    <button class="up" type="button" data-direction="up" aria-label="Mover arriba">↑</button>
+                    <button class="left" type="button" data-direction="left" aria-label="Mover a la izquierda">←</button>
+                    <button class="down" type="button" data-direction="down" aria-label="Mover abajo">↓</button>
+                    <button class="right" type="button" data-direction="right" aria-label="Mover a la derecha">→</button>
+                </div>
+
+                <div class="game-actions">
+                    <button class="primary" id="startGame" type="button">Play</button>
+                    <button id="pauseGame" type="button">Pause</button>
+                    <button id="resetGame" type="button">Reset</button>
+                </div>
+            </div>
+
+            <aside class="leaderboard">
+                <h3>Top de este dispositivo</h3>
+                <ol id="leaderboard"></ol>
+            </aside>
+        </div>
+    </div>
+
+    <script>
+        (() => {
+            "use strict";
+
+            const body = document.body;
+            const musicDrawer = document.getElementById("musicDrawer");
+            const musicHandle = document.getElementById("musicHandle");
+            const closeMusic = document.getElementById("closeMusic");
+            const imageModal = document.getElementById("imageModal");
+            const gameModal = document.getElementById("gameModal");
+            let lastFocusedElement = null;
+
+            document.getElementById("year").textContent = new Date().getFullYear();
+
+            function toggleMusic(force) {
+                const shouldOpen = typeof force === "boolean" ? force : !musicDrawer.classList.contains("open");
+                musicDrawer.classList.toggle("open", shouldOpen);
+                musicHandle.setAttribute("aria-expanded", String(shouldOpen));
+                musicHandle.setAttribute("aria-label", shouldOpen ? "Cerrar reproductor de música" : "Abrir reproductor de música");
+            }
+
+            musicHandle.addEventListener("click", () => toggleMusic());
+            closeMusic.addEventListener("click", () => toggleMusic(false));
+
+            function openModal(modal) {
+                lastFocusedElement = document.activeElement;
+                modal.classList.add("active");
+                body.classList.add("locked");
+            }
+
+            function closeModal(modal) {
+                modal.classList.remove("active");
+                if (!document.querySelector(".modal.active")) body.classList.remove("locked");
+                if (lastFocusedElement && typeof lastFocusedElement.focus === "function") lastFocusedElement.focus();
+            }
+
+            // Gallery
+            const images = [
+                { src: "Imagenes/3DSyka.png", alt: "Retrato tridimensional de Syka con sombrero naranja" },
+                { src: "Imagenes/BACKGROUND.png", alt: "Composición gráfica del universo Syka" },
+                { src: "Imagenes/FIRST&ORIGINAL.jpeg", alt: "Arte First and Original" },
+                { src: "Imagenes/SYKA LOGO BLUE.jpeg", alt: "Logotipo azul de Syka" },
+                { src: "Imagenes/SYKA LOGO.png", alt: "Logotipo de Syka" },
+                { src: "Imagenes/SYKABLUEWALLPAPER.jpeg", alt: "Fondo azul de Syka" },
+                { src: "Imagenes/SYKAPROMO.png", alt: "Arte promocional de Syka" }
+            ];
+            const modalImage = document.getElementById("modalImage");
+            const downloadImage = document.getElementById("downloadImage");
+            const imageCount = document.getElementById("imageCount");
+            let currentImage = 0;
+
+            function updateImage() {
+                const image = images[currentImage];
+                modalImage.src = image.src;
+                modalImage.alt = image.alt;
+                downloadImage.href = image.src;
+                imageCount.textContent = `${String(currentImage + 1).padStart(3, "0")} / ${String(images.length).padStart(3, "0")}`;
+            }
+
+            function showImage(index) {
+                currentImage = Number(index);
+                updateImage();
+                openModal(imageModal);
+                document.getElementById("closeImage").focus();
+            }
+
+            function changeImage(step) {
+                currentImage = (currentImage + step + images.length) % images.length;
+                updateImage();
+            }
+
+            document.querySelectorAll(".gallery-card:not([tabindex='-1'])").forEach((card) => {
+                card.addEventListener("click", () => showImage(card.dataset.index));
+            });
+            document.getElementById("closeImage").addEventListener("click", () => closeModal(imageModal));
+            document.getElementById("prevImage").addEventListener("click", () => changeImage(-1));
+            document.getElementById("nextImage").addEventListener("click", () => changeImage(1));
+            imageModal.addEventListener("click", (event) => {
+                if (event.target === imageModal) closeModal(imageModal);
+            });
+
+            // Snake
+            const canvas = document.getElementById("game");
+            const ctx = canvas.getContext("2d");
+            const scoreElement = document.getElementById("score");
+            const finalScoreElement = document.getElementById("finalScore");
+            const gameOverBlock = document.getElementById("gameOverBlock");
+            const leaderboardElement = document.getElementById("leaderboard");
+            const grid = 20;
+            const tileCount = 20;
+            const directions = {
+                up: { x: 0, y: -1 },
+                down: { x: 0, y: 1 },
+                left: { x: -1, y: 0 },
+                right: { x: 1, y: 0 }
+            };
+            const foodPalette = [
+                { color: "#d91e2e", weight: 30 },
+                { color: "#173673", weight: 27 },
+                { color: "#f2a649", weight: 25 },
+                { color: "#f28b50", weight: 18 }
+            ];
+            let snake = [];
+            let bodyColors = [];
+            let velocity = { x: 0, y: 0 };
+            let nextVelocity = { x: 0, y: 0 };
+            let food = { x: 5, y: 5 };
+            let score = 0;
+            let running = false;
+            let gameInterval = null;
+            let touchStart = null;
+            let scores = [];
+
+            try {
+                const savedScores = JSON.parse(localStorage.getItem("caparroso_ranks_launch") || "[]");
+                scores = Array.isArray(savedScores) ? savedScores : [];
+            } catch (error) {
+                scores = [];
+            }
+
+            function spawnFood() {
+                let candidate;
+                do {
+                    candidate = {
+                        x: Math.floor(Math.random() * tileCount),
+                        y: Math.floor(Math.random() * tileCount)
+                    };
+                } while (snake.some((part) => part.x === candidate.x && part.y === candidate.y));
+                candidate.color = pickFoodColor();
+                return candidate;
+            }
+
+            function pickFoodColor() {
+                const totalWeight = foodPalette.reduce((total, item) => total + item.weight, 0);
+                let roll = Math.random() * totalWeight;
+                for (const item of foodPalette) {
+                    roll -= item.weight;
+                    if (roll < 0) return item.color;
+                }
+                return foodPalette[foodPalette.length - 1].color;
+            }
+
+            function initGame() {
+                snake = [{ x: 10, y: 10 }];
+                bodyColors = [];
+                velocity = { x: 0, y: 0 };
+                nextVelocity = { x: 0, y: 0 };
+                score = 0;
+                food = spawnFood();
+                scoreElement.textContent = "0";
+                gameOverBlock.classList.remove("active");
+                renderLeaderboard();
+                drawGame();
+            }
+
+            function startGame() {
+                if (running || gameOverBlock.classList.contains("active")) return;
+                if (nextVelocity.x === 0 && nextVelocity.y === 0) nextVelocity = { x: 1, y: 0 };
+                running = true;
+                clearInterval(gameInterval);
+                gameInterval = window.setInterval(gameLoop, 108);
+            }
+
+            function pauseGame() {
+                running = false;
+                clearInterval(gameInterval);
+                gameInterval = null;
+            }
+
+            function resetGame() {
+                pauseGame();
+                initGame();
+            }
+
+            function setDirection(direction) {
+                const candidate = directions[direction];
+                if (!candidate) return;
+                const current = nextVelocity.x === 0 && nextVelocity.y === 0 ? velocity : nextVelocity;
+                const isOpposite = candidate.x === -current.x && candidate.y === -current.y;
+                if (!isOpposite) nextVelocity = candidate;
+                if (!running && !gameOverBlock.classList.contains("active")) startGame();
+            }
+
+            function gameLoop() {
+                velocity = nextVelocity;
+                const head = {
+                    x: snake[0].x + velocity.x,
+                    y: snake[0].y + velocity.y
+                };
+                const willEat = head.x === food.x && head.y === food.y;
+                const collisionBody = willEat ? snake : snake.slice(0, -1);
+                const hitWall = head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount;
+                const hitSelf = collisionBody.some((part) => part.x === head.x && part.y === head.y);
+
+                if (hitWall || hitSelf) {
+                    endGame();
+                    return;
+                }
+
+                snake.unshift(head);
+                if (willEat) {
+                    bodyColors.push(food.color);
+                    score += 1;
+                    scoreElement.textContent = String(score);
+                    food = spawnFood();
+                } else {
+                    snake.pop();
+                }
+                drawGame();
+            }
+
+            function drawGame() {
+                const boardBackground = ctx.createRadialGradient(200, 180, 12, 200, 200, 330);
+                boardBackground.addColorStop(0, "#17130f");
+                boardBackground.addColorStop(0.5, "#0d0d0d");
+                boardBackground.addColorStop(1, "#070707");
+                ctx.fillStyle = boardBackground;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                ctx.shadowBlur = 11;
+                ctx.shadowColor = food.color;
+                ctx.fillStyle = food.color;
+                ctx.fillRect(food.x * grid + 3, food.y * grid + 3, grid - 6, grid - 6);
+                ctx.shadowBlur = 0;
+
+                snake.forEach((part, index) => {
+                    ctx.shadowBlur = index === 0 ? 10 : 0;
+                    ctx.shadowColor = "#fff8ef";
+                    ctx.fillStyle = index === 0 ? "#fff8ef" : bodyColors[index - 1];
+                    ctx.fillRect(part.x * grid + 2, part.y * grid + 2, grid - 4, grid - 4);
+                });
+                ctx.shadowBlur = 0;
+            }
+
+            function endGame() {
+                pauseGame();
+                finalScoreElement.textContent = String(score);
+                gameOverBlock.classList.add("active");
+                window.setTimeout(() => document.getElementById("nameInput").focus(), 80);
+            }
+
+            function renderLeaderboard() {
+                leaderboardElement.innerHTML = "";
+                if (scores.length === 0) {
+                    const empty = document.createElement("li");
+                    empty.className = "empty-score";
+                    empty.textContent = "Aún no hay puntuaciones. Sé la primera señal.";
+                    leaderboardElement.appendChild(empty);
+                    return;
+                }
+
+                scores.slice(0, 5).forEach((entry, index) => {
+                    const item = document.createElement("li");
+                    const name = document.createElement("span");
+                    const points = document.createElement("span");
+                    name.textContent = `#${index + 1} ${entry.name}`;
+                    points.textContent = String(entry.points);
+                    item.append(name, points);
+                    leaderboardElement.appendChild(item);
+                });
+            }
+
+            function saveScore(name) {
+                scores.push({ name: name.trim().slice(0, 12), points: score });
+                scores.sort((a, b) => b.points - a.points);
+                scores = scores.slice(0, 5);
+                try {
+                    localStorage.setItem("caparroso_ranks_launch", JSON.stringify(scores));
+                } catch (error) {
+                    // The game remains usable if storage is unavailable.
+                }
+                resetGame();
+            }
+
+            document.getElementById("openGameButton").addEventListener("click", () => {
+                toggleMusic(true);
+                openModal(gameModal);
+                initGame();
+                document.getElementById("startGame").focus();
+            });
+
+            document.getElementById("closeGame").addEventListener("click", () => {
+                pauseGame();
+                closeModal(gameModal);
+            });
+            document.getElementById("startGame").addEventListener("click", startGame);
+            document.getElementById("pauseGame").addEventListener("click", pauseGame);
+            document.getElementById("resetGame").addEventListener("click", resetGame);
+            document.getElementById("restartWithoutSave").addEventListener("click", resetGame);
+
+            document.getElementById("scoreForm").addEventListener("submit", (event) => {
+                event.preventDefault();
+                const input = document.getElementById("nameInput");
+                if (input.value.trim()) {
+                    saveScore(input.value);
+                    input.value = "";
+                }
+            });
+
+            document.querySelectorAll("[data-direction]").forEach((button) => {
+                button.addEventListener("pointerdown", (event) => {
+                    event.preventDefault();
+                    setDirection(button.dataset.direction);
+                });
+            });
+
+            canvas.addEventListener("pointerdown", (event) => {
+                touchStart = { x: event.clientX, y: event.clientY };
+            });
+            canvas.addEventListener("pointerup", (event) => {
+                if (!touchStart) return;
+                const dx = event.clientX - touchStart.x;
+                const dy = event.clientY - touchStart.y;
+                touchStart = null;
+                if (Math.max(Math.abs(dx), Math.abs(dy)) < 18) return;
+                if (Math.abs(dx) > Math.abs(dy)) setDirection(dx > 0 ? "right" : "left");
+                else setDirection(dy > 0 ? "down" : "up");
+            });
+
+            document.addEventListener("keydown", (event) => {
+                if (event.key === "Escape") {
+                    if (imageModal.classList.contains("active")) closeModal(imageModal);
+                    else if (gameModal.classList.contains("active")) {
+                        pauseGame();
+                        closeModal(gameModal);
+                    } else if (musicDrawer.classList.contains("open")) toggleMusic(false);
+                    return;
+                }
+
+                if (imageModal.classList.contains("active")) {
+                    if (event.key === "ArrowLeft") changeImage(-1);
+                    if (event.key === "ArrowRight") changeImage(1);
+                    return;
+                }
+
+                if (!gameModal.classList.contains("active") || document.activeElement === document.getElementById("nameInput")) return;
+
+                const keyDirections = {
+                    ArrowUp: "up",
+                    ArrowDown: "down",
+                    ArrowLeft: "left",
+                    ArrowRight: "right",
+                    w: "up",
+                    s: "down",
+                    a: "left",
+                    d: "right"
+                };
+                if (keyDirections[event.key]) {
+                    event.preventDefault();
+                    setDirection(keyDirections[event.key]);
+                }
+            });
+
+            gameModal.addEventListener("click", (event) => {
+                if (event.target === gameModal) {
+                    pauseGame();
+                    closeModal(gameModal);
+                }
+            });
+
+            initGame();
+        })();
+    </script>
+</body>
+</html>
